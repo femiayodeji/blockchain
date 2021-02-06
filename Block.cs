@@ -10,7 +10,7 @@ public class Block
     public string Hash { get; set; }
     public string Data { get; set; }
 
-    Block(
+    public Block(
         DateTime timeStamp, 
         string previousHash, 
         string data)

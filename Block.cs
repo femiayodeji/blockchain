@@ -18,7 +18,7 @@ public class Block
         Key = 0;
         TimeStamp = timeStamp;
         PreviousHash = previousHash;
-        Data = Data;
+        Data = data;
         Hash = CreateHash();
     }
 

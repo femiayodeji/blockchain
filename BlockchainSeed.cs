@@ -31,7 +31,7 @@ public static class BlockchainTest
 
         testCoin.DataBase[1].Data = $"";
 
-        Debug.Assert(testCoin.IsChainValid() == true, "Data Security Test Failed", "The chain is invalid. Expected false");
+        Debug.Assert(testCoin.IsChainValid() == false, "Data Security Test Failed", "The chain is invalid. Expected false");
     }
 }
 

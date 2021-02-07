@@ -39,4 +39,22 @@ public class Chain
     {
         return DataBase[DataBase.Count - 1];
     }
+
+    public bool IsChainValid()
+    {
+        for(int i = 1; i < DataBase.Count; i++)
+        {
+            Block currentBlock = DataBase[i];
+            Block previousBlock = DataBase[i - 1];
+
+            if (
+                currentBlock.Hash != currentBlock.CreateHash() || 
+                currentBlock.PreviousHash != previousBlock.Hash
+                )
+            {
+                return false;
+            }
+        }
+        return true;
+    }
 }

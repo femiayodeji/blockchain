@@ -11,6 +11,7 @@ public static class BlockchainTest
         Seed();
         DataSecurity();
         ProofOfWork();
+        Console.WriteLine("All tests passed");
     }
 
     public static void Seed()
@@ -27,24 +28,30 @@ public static class BlockchainTest
         Console.WriteLine($"Time taken: {endTime - startTime}");
 
         Debug.Assert(testCoin.DataBase[0].PreviousHash == null, "Genesis Block Test Failed", $"The previous block hash should be null");
+        Console.WriteLine("Genesis Block Test - Passed");
 
         Debug.Assert(testCoin.DataBase.Count > 1, "New Block Test Failed", $"The chain has no new block. Expected {4} new blocks");
+        Console.WriteLine("New Block Test - Passed");
         
         Console.WriteLine(JsonConvert.SerializeObject(testCoin, Formatting.Indented));
     }
 
     public static void DataSecurity()
     {
+        bool blockValidation;
         Chain testCoin = new Chain();  
         testCoin.AddBlock(new Block(DateTime.Now, null, TestTransactions()[0]));  
-        testCoin.AddBlock(new Block(DateTime.Now, null, TestTransactions()[1]));  
         testCoin.AddBlock(new Block(DateTime.Now, null, TestTransactions()[2]));  
         
-        Debug.Assert(testCoin.IsChainValid() == true, "Data Security Test Failed", "The chain is valid. Expected true");
+        blockValidation = testCoin.IsChainValid();
+        Debug.Assert(blockValidation == true, "Data Security Test Failed", $"The chain is valid. Expected {blockValidation}");
+        Console.WriteLine("Data Security Test (Valid Blockchain) - Passed");
 
         testCoin.DataBase[1].Data = $"";
 
-        Debug.Assert(testCoin.IsChainValid() == false, "Data Security Test Failed", "The chain is invalid. Expected false");
+        blockValidation = testCoin.IsChainValid();
+        Debug.Assert(blockValidation == false, "Data Security Test Failed", $"The chain is invalid. Expected {blockValidation}");
+        Console.WriteLine("Data Security Test (Invalid Blockchain) - Passed");
     }
 
     public static void ProofOfWork()
@@ -52,13 +59,13 @@ public static class BlockchainTest
         string expectedLeadingZeros = new string('0', Config.Difficulty);
 
         Chain testCoin = new Chain();  
-        testCoin.AddBlock(new Block(DateTime.Now, null, TestTransactions()[0]));  
         testCoin.AddBlock(new Block(DateTime.Now, null, TestTransactions()[1]));  
-        testCoin.AddBlock(new Block(DateTime.Now, null, TestTransactions()[2]));          
+        testCoin.AddBlock(new Block(DateTime.Now, null, TestTransactions()[2]));  
 
         string leadingZeros = GetLeadingZero(testCoin.DataBase[1].Hash);
         
         Debug.Assert(leadingZeros == expectedLeadingZeros, "Proof of Work Test Failed", $"Leading zeros is expected to be {expectedLeadingZeros}");
+        Console.WriteLine("Proof of Work Test - Passed");
     }
 
     private static string[] TestTransactions()

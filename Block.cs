@@ -4,28 +4,25 @@ using System.Text;
 
 public class Block
 {
-    public int Key { get; set; }
+    public int Key { get; set; } = 0;
     public DateTime TimeStamp { get; set; }
     public string PreviousHash { get; set; }
     public string Hash { get; set; }
     public string Data { get; set; }
-
-    public Block(
-        DateTime timeStamp, 
-        string previousHash, 
-        string data)
+    private long _nonce = 0;
+    
+    public Block(DateTime timeStamp, string previousHash, string data)
     {
-        Key = 0;
         TimeStamp = timeStamp;
         PreviousHash = previousHash;
         Data = data;
-        Hash = CreateHash();
+        Hash = CalculateHash();
     }
 
-    public string CreateHash()
+    public string CalculateHash()
     {
         SHA256 algorithm = SHA256.Create();
-        string rawData = $"{TimeStamp}-{PreviousHash ?? ""}-{Data}";
+        string rawData = $"{TimeStamp}-{PreviousHash ?? ""}-{Data}-{_nonce}";
         byte[] inputBytes = Encoding.ASCII.GetBytes(rawData);
         byte[] outputBytes = algorithm.ComputeHash(inputBytes);
         return Convert.ToBase64String(outputBytes);

@@ -31,7 +31,7 @@ public class Chain
         Block latestBlock = GetLatestBlock();
         block.Key = latestBlock.Key + 1;
         block.PreviousHash = latestBlock.Hash;
-        block.Hash = block.CreateHash();
+        block.Hash = block.CalculateHash();
         DataBase.Add(block);
     }
 
@@ -48,7 +48,7 @@ public class Chain
             Block previousBlock = DataBase[i - 1];
 
             if (
-                currentBlock.Hash != currentBlock.CreateHash() || 
+                currentBlock.Hash != currentBlock.CalculateHash() || 
                 currentBlock.PreviousHash != previousBlock.Hash
                 )
             {

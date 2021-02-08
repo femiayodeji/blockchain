@@ -15,10 +15,8 @@ public static class BlockchainTest
     public static void Seed()
     {
         Chain testCoin = new Chain();  
-        testCoin.AddBlock(new Block(DateTime.Now, null, "{sender:Femi,receiver:Adetayo,amount:10}"));  
-        testCoin.AddBlock(new Block(DateTime.Now, null, "{sender:Adetayo,receiver:Femi,amount:5}"));  
-        testCoin.AddBlock(new Block(DateTime.Now, null, "{sender:Adetayo,receiver:Femi,amount:5}"));  
-        
+        Debug.Assert(testCoin.DataBase.Count == 1, "Genesis Block Test Failed", $"The chain is empty. Expected {1}");
+
         Console.WriteLine(JsonConvert.SerializeObject(testCoin, Formatting.Indented));
     }
 

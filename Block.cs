@@ -27,4 +27,15 @@ public class Block
         byte[] outputBytes = algorithm.ComputeHash(inputBytes);
         return Convert.ToBase64String(outputBytes);
     }
+
+    public void Mine(int difficulty)
+    {
+        string leadingZeros = new string('0', difficulty);
+        while(this.Hash == null || this.Hash.Substring(0, difficulty) != leadingZeros)
+        {
+            this._nonce++;
+            this.Hash = CalculateHash();
+        }
+    }
 }
+

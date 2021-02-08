@@ -15,13 +15,18 @@ public static class BlockchainTest
 
     public static void Seed()
     {
+        DateTime startTime = DateTime.Now;
+
         Chain testCoin = new Chain();  
-
-        Debug.Assert(testCoin.DataBase.Count == 1, "Genesis Block Test Failed", $"The chain is empty. Expected {1} block");
-
         testCoin.AddBlock(new Block(DateTime.Now, null, TestTransactions()[0]));  
         testCoin.AddBlock(new Block(DateTime.Now, null, TestTransactions()[1]));  
         testCoin.AddBlock(new Block(DateTime.Now, null, TestTransactions()[2]));  
+
+        DateTime endTime = DateTime.Now;
+
+        Console.WriteLine($"Time taken: {endTime - startTime}");
+
+        Debug.Assert(testCoin.DataBase[0].PreviousHash == null, "Genesis Block Test Failed", $"The previous block hash should be null");
 
         Debug.Assert(testCoin.DataBase.Count > 1, "New Block Test Failed", $"The chain has no new block. Expected {4} new blocks");
         

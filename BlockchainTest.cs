@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Generic;
 using System.Diagnostics;
 using Newtonsoft.Json;
 
@@ -18,9 +19,9 @@ public static class BlockchainTest
 
         Debug.Assert(testCoin.DataBase.Count == 1, "Genesis Block Test Failed", $"The chain is empty. Expected {1} block");
 
-        testCoin.AddBlock(new Block(DateTime.Now, null, "{sender:Femi,receiver:Adetayo,amount:10}"));  
-        testCoin.AddBlock(new Block(DateTime.Now, null, "{sender:Adetayo,receiver:Femi,amount:5}"));  
-        testCoin.AddBlock(new Block(DateTime.Now, null, "{sender:Adetayo,receiver:Femi,amount:5}"));  
+        testCoin.AddBlock(new Block(DateTime.Now, null, TestTransactions()[0]));  
+        testCoin.AddBlock(new Block(DateTime.Now, null, TestTransactions()[1]));  
+        testCoin.AddBlock(new Block(DateTime.Now, null, TestTransactions()[2]));  
 
         Debug.Assert(testCoin.DataBase.Count > 1, "New Block Test Failed", $"The chain has no new block. Expected {4} new blocks");
         
@@ -30,9 +31,9 @@ public static class BlockchainTest
     public static void DataSecurity()
     {
         Chain testCoin = new Chain();  
-        testCoin.AddBlock(new Block(DateTime.Now, null, "{sender:Femi,receiver:Adetayo,amount:10}"));  
-        testCoin.AddBlock(new Block(DateTime.Now, null, "{sender:Adetayo,receiver:Femi,amount:5}"));  
-        testCoin.AddBlock(new Block(DateTime.Now, null, "{sender:Adetayo,receiver:Femi,amount:5}"));  
+        testCoin.AddBlock(new Block(DateTime.Now, null, TestTransactions()[0]));  
+        testCoin.AddBlock(new Block(DateTime.Now, null, TestTransactions()[1]));  
+        testCoin.AddBlock(new Block(DateTime.Now, null, TestTransactions()[2]));  
         
         Debug.Assert(testCoin.IsChainValid() == true, "Data Security Test Failed", "The chain is valid. Expected true");
 
@@ -46,13 +47,22 @@ public static class BlockchainTest
         string expectedLeadingZeros = new string('0', Config.Difficulty);
 
         Chain testCoin = new Chain();  
-        testCoin.AddBlock(new Block(DateTime.Now, null, "{sender:Femi,receiver:Adetayo,amount:10}"));  
-        testCoin.AddBlock(new Block(DateTime.Now, null, "{sender:Adetayo,receiver:Femi,amount:5}"));  
-        testCoin.AddBlock(new Block(DateTime.Now, null, "{sender:Adetayo,receiver:Femi,amount:5}"));          
+        testCoin.AddBlock(new Block(DateTime.Now, null, TestTransactions()[0]));  
+        testCoin.AddBlock(new Block(DateTime.Now, null, TestTransactions()[1]));  
+        testCoin.AddBlock(new Block(DateTime.Now, null, TestTransactions()[2]));          
 
         string leadingZeros = GetLeadingZero(testCoin.DataBase[1].Hash);
         
         Debug.Assert(leadingZeros == expectedLeadingZeros, "Proof of Work Test Failed", $"Leading zeros is expected to be {expectedLeadingZeros}");
+    }
+
+    private static string[] TestTransactions()
+    {
+        return new string[] {
+            "{sender:Femi,receiver:Adetayo,amount:10}",
+            "{sender:Adetayo,receiver:Femi,amount:5}",
+            "{sender:Adetayo,receiver:Femi,amount:2}",
+        };
     }
 
     private static string GetLeadingZero(string str)

@@ -6,8 +6,10 @@ public static class BlockchainTest
 {
     public static void Run()
     {
+        Console.WriteLine("Running tests..");
         Seed();
         DataSecurity();
+        ProofOfWork();
     }
 
     public static void Seed()
@@ -32,6 +34,32 @@ public static class BlockchainTest
         testCoin.DataBase[1].Data = $"";
 
         Debug.Assert(testCoin.IsChainValid() == false, "Data Security Test Failed", "The chain is invalid. Expected false");
+    }
+
+    public static void ProofOfWork()
+    {
+        string expectedLeadingZeros = new string('0', Config.Difficulty);
+
+        Chain testCoin = new Chain();  
+        testCoin.AddBlock(new Block(DateTime.Now, null, "{sender:Femi,receiver:Adetayo,amount:10}"));  
+        testCoin.AddBlock(new Block(DateTime.Now, null, "{sender:Adetayo,receiver:Femi,amount:5}"));  
+        testCoin.AddBlock(new Block(DateTime.Now, null, "{sender:Adetayo,receiver:Femi,amount:5}"));          
+
+        string leadingZeros = GetLeadingZero(testCoin.DataBase[1].Hash);
+        
+        Debug.Assert(leadingZeros == expectedLeadingZeros, "Proof of Work Test Failed", $"Leading zeros is expected to be {expectedLeadingZeros}");
+    }
+
+    private static string GetLeadingZero(string str)
+    {
+        string result = "";
+        foreach(char c in str)
+        {
+            if(c != '0')
+                break;
+            result += c;            
+        }
+        return result;
     }
 }
 

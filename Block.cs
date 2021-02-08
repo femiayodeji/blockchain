@@ -33,7 +33,7 @@ public class Block
         string leadingZeros = new string('0', difficulty);
         while(this.Hash == null || this.Hash.Substring(0, difficulty) != leadingZeros)
         {
-            this._nonce++;
+            _nonce++;
             this.Hash = CalculateHash();
         }
     }

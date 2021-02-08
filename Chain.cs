@@ -3,6 +3,7 @@ using System.Collections.Generic;
 
 public class Chain
 {
+    private readonly int _difficulty = Config.Difficulty;
     public IList<Block> DataBase { get; set; }
 
     public Chain()
@@ -31,7 +32,7 @@ public class Chain
         Block latestBlock = GetLatestBlock();
         block.Key = latestBlock.Key + 1;
         block.PreviousHash = latestBlock.Hash;
-        block.Hash = block.CalculateHash();
+        block.Mine(_difficulty);
         DataBase.Add(block);
     }
 

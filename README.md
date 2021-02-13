@@ -11,4 +11,4 @@ Blockchain is a data structure similar to a linked list. This data structure is 
 
 A change in any block invalidates every block after it, which makes the data secure and difficult to manipulate. It uses cryptography to ensure data integrity.
 
-The investor of Blockchain invented a constraint to ensure the hash calculation is difficulty. A significant computing time is required to generate a new block. This constraint says that the hash of each block must begin with X number of zeros. This is known as Proof of Work and the generated information must be simple and verifiable so that it can be easily verified by any nodes in the Peer-to-Peer network.
+The inventor of Blockchain invented a constraint to ensure the hash calculation is difficulty. A significant computing time is required to generate a new block. This constraint says that the hash of each block must begin with X number of zeros. This is known as Proof of Work and the generated information must be simple and verifiable so that it can be easily verified by any nodes in the Peer-to-Peer network.
